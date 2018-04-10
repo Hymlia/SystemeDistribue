@@ -16,6 +16,7 @@ public class NoeudBlock {
 	
 	public void transmissionblock() {
 		//transmettre à voisin nouveau block créé
+		Block b = blockchain.get(blockchain.size()-1);
 	}
 	
 	public Block getBlock(int profondeur) {
@@ -27,6 +28,12 @@ public class NoeudBlock {
 	}
 	
 	public void creerblock() {
+		//attente
+		
+		//creation block
+		Block b = new Block(attente,blockchain.get(blockchain.size()-1).calculateHash());
+		blockchain.add(b);
+		transmissionblock();
 		
 	}
 
