@@ -22,7 +22,7 @@ public class NoeudBlock {
 		return blockchain.get(profondeur);
 	}
 	
-	public ArrayList<Block> getBlockChain() {
+	public ArrayList<Block> getBlockChain() { //peut-etre à ne pas utiliser
 		return blockchain;
 	}
 	
