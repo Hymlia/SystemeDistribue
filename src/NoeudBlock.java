@@ -11,7 +11,7 @@ public class NoeudBlock {
 	
 	
 	public void retransmissiondemande() {
-		//enovoeyr demande des np à tous les ovisins
+		//enovoyer demande des np à tous les ovisins
 	}
 	
 	public void transmissionblock() {
