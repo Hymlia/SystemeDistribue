@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Date;
 
-
 public class Operation {
 	private String nom;
 	private ArrayList<Noeud> noeudsconsernes;
@@ -14,4 +13,5 @@ public class Operation {
 		this.quantite =q;
 		this.timeStamp = new Date().getTime();
 	}
+
 }
