@@ -1,7 +1,8 @@
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 
-public class NoeudBlock extends Noeud {
+public class NoeudBlock extends Noeud implements NoeudBlockInterface {
 	
 	private ArrayList<NoeudParticipant> noeudsinscrits;
 	private ArrayList<Double> meriteinscrits;
@@ -37,16 +38,21 @@ public class NoeudBlock extends Noeud {
 		return blockchain;
 	}
 	
-	public void inscrireNP(NoeudParticipant np) {
+	public void inscrireNP(NoeudParticipant np)throws RemoteException {
 		noeudsinscrits.add(np);
 		int nbnp = noeudsinscrits.size();
 		meriteinscrits.clear();
 		for(int i =0 ; i<nbnp; i++) {
 			meriteinscrits.add(1.0/nbnp);
 		}
+		ArrayList<Noeud> a = new ArrayList<Noeud>();
+		a.add(np);
+		a.add(this);
+		Operation o = new Operation("Inscription",a,0);
+		attente.add(o);
 	}
 	
-	public void ajouteroperation(Operation o) {
+	public void ajouteroperation(Operation o)throws RemoteException {
 			attente.add(o);
 	}
 	
