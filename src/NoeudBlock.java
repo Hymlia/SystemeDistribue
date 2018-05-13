@@ -1,17 +1,41 @@
+import java.net.MalformedURLException;
+import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 
-public class NoeudBlock extends Noeud implements NoeudBlockInterface {
+public class NoeudBlock extends UnicastRemoteObject implements NoeudBlockInterface, Noeud {
 	
 	private ArrayList<NoeudParticipant> noeudsinscrits;
 	private ArrayList<Double> meriteinscrits;
 	private ArrayList<Block> blockchain ;
 	private ArrayList<Operation> attente;
 	private ArrayList<NoeudBlock> voisins;
+	private String machine;
+	private String port;
 	
-	public NoeudBlock(String p, String n) {
-		super(n,p);
+	public static void main(String [] args)
+	{
+		if (args.length != 1)
+		{
+			System.out.println("Usage : java Serveur <port du serveur de noms>") ;
+			System.exit(0) ;
+		}
+		try
+		{
+			GestionOperationsImpl objLocal = new GestionOperationsImpl () ;
+			Naming.rebind( "rmi://localhost:" + args[0] + "/GestionOperations" ,objLocal) ;
+			System.out.println("Serveur pret") ;
+		}
+		catch (RemoteException re) { System.out.println(re) ; }
+		catch (MalformedURLException e) { System.out.println(e) ; }
+	}
+	
+	
+	public NoeudBlock(String m, String p) throws RemoteException{
+		machine = m;
+		port = p;
 		noeudsinscrits = new ArrayList<NoeudParticipant>();
 		blockchain = new ArrayList<Block>() ;
 		attente = new ArrayList<Operation>();
@@ -91,6 +115,18 @@ public class NoeudBlock extends Noeud implements NoeudBlockInterface {
 		}
 		
 		return res;
+	}
+	
+	public String toString() {
+		return this.getmachine()+" : " + this.getport();
+	}
+
+	public String getmachine() {
+		return machine;
+	}
+
+	public String getport() {
+		return port;
 	}
 	
 

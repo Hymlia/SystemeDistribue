@@ -1,25 +1,14 @@
 import java.util.ArrayList;
 
 
-public class Noeud {
+public interface Noeud {
 	
-	private String machine;
-	private String port;
 	
-	public Noeud(String m , String p) {
-		machine = m;
-		port =p;
-	}
 	
-	public String getmachine() {
-		return machine;
-	}
 	
-	public String getport() {
-		return port;
-	}
+	public String getmachine();
 	
-	public String toString() {
-		return this.getmachine()+" : " + this.getport();
-	}
+	public String getport();
+	
+	public String toString() ;
 }

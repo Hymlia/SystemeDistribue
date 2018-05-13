@@ -2,15 +2,40 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 
-public class NoeudParticipant extends Noeud {
+public class NoeudParticipant extends UnicastRemoteObject implements Noeud {
 	public NoeudBlock inscription;
-	private double pointblockchain=0.0;		
+	private double pointblockchain=0.0;
+	private String machine;
+	private String port;
+	
+	public static void main(String [] args)
+	{
+		if (args.length != 2)
+		{
+			System.out.println(
+					"Usage : java Client <machine du Serveur>:<port du rmiregistry>") ;
+			System.exit(0) ;
+		}
+		try
+		{
+			GestionOperations stub = (GestionOperations) Naming.lookup(
+					"rmi://" + args[0] + ":" + args[1] + "/GestionOperations") ;
+			// stub est désormais utilisable comme un objet local.
+			stub.inscrireNP(this, inscription) ;
+		}
+		catch (NotBoundException re) { System.out.println(re) ; }
+		catch (RemoteException re) { System.out.println(re) ; }
+		catch (MalformedURLException e) { System.out.println(e) ; }
+	}
 		
-	public NoeudParticipant(String nom, String p) {
-		super(nom,p);
+	public NoeudParticipant(String nom, String p) throws RemoteException
+{
+		machine = nom;
+		port = p;
 	}
 	
 	public void envoiedemande() {
@@ -57,6 +82,18 @@ public class NoeudParticipant extends Noeud {
 			Thread.sleep(5000);
 			envoiedemande();
 		}
+	}
+	
+	public String toString() {
+		return this.getmachine()+" : " + this.getport();
+	}
+
+	public String getmachine() {
+		return machine;
+	}
+
+	public String getport() {
+		return port;
 	}
 	
 	
