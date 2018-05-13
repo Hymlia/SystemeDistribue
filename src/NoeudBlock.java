@@ -38,7 +38,7 @@ public class NoeudBlock extends Noeud implements NoeudBlockInterface {
 		return blockchain;
 	}
 	
-	public void inscrireNP(NoeudParticipant np)throws RemoteException {
+	public boolean inscrireNP(NoeudParticipant np)throws RemoteException {
 		noeudsinscrits.add(np);
 		int nbnp = noeudsinscrits.size();
 		meriteinscrits.clear();
@@ -50,6 +50,7 @@ public class NoeudBlock extends Noeud implements NoeudBlockInterface {
 		a.add(this);
 		Operation o = new Operation("Inscription",a,0);
 		attente.add(o);
+		return true;
 	}
 	
 	public void ajouteroperation(Operation o)throws RemoteException {
@@ -71,5 +72,26 @@ public class NoeudBlock extends Noeud implements NoeudBlockInterface {
 		blockchain.add(b);
 		transmissionblock(b);
 	}
+	
+	public double demandepoints(NoeudParticipant np)throws RemoteException {
+		double res = 0.0;
+		for(int i=0; i<blockchain.size(); i++) {
+			for(int j=0; j<blockchain.get(i).data.size(); j++) {
+				Operation opcourante = blockchain.get(i).data.get(j);
+				if(opcourante.getNom().equals("Don")) {
+					ArrayList<Noeud> noeuds = opcourante.getNoeudsConsernes();
+					if(noeuds.get(0).getmachine()== np.getmachine() && noeuds.get(0).getport() == np.getport()) {
+						res = res - opcourante.getQuantite();
+					}
+					else if(noeuds.get(1).getmachine()== np.getmachine() && noeuds.get(1).getport() == np.getport()) {
+						res = res + opcourante.getQuantite();
+					}
+				}
+			}
+		}
+		
+		return res;
+	}
+	
 
 }

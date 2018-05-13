@@ -13,5 +13,17 @@ public class Operation {
 		this.quantite =q;
 		this.timeStamp = new Date().getTime();
 	}
+	
+	public String getNom(){
+		return nom;
+	}
+	
+	public ArrayList<Noeud> getNoeudsConsernes() {
+		return noeudsconsernes;
+	}
+	
+	public double getQuantite() {
+		return quantite;
+	}
 
 }

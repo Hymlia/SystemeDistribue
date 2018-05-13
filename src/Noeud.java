@@ -18,4 +18,8 @@ public class Noeud {
 	public String getport() {
 		return port;
 	}
+	
+	public String toString() {
+		return this.getmachine()+" : " + this.getport();
+	}
 }
